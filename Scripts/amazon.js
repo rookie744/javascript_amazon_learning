@@ -25,7 +25,7 @@ products.forEach((product) => {
           </div>
 
           <div class="product-quantity-container">
-            <select>
+            <select class="js-select-quantity-${product.id}">
               <option selected value="1">1</option>
               <option value="2">2</option>
               <option value="3">3</option>
@@ -59,30 +59,38 @@ document.querySelector('.products-grid').innerHTML=productHTML;
 //add to cart functionality
 let add_cart_btn = document.querySelectorAll('.js-add-cart');
 
-add_cart_btn.forEach((button)=>
-{
-  button.addEventListener('click',() => {
+add_cart_btn.forEach((button) => {
+  button.addEventListener('click', () => {
     let check_presence;
     let productid = button.dataset.productid;
-    cart.forEach((product)=>
-    {
-      if(product.productid === productid)
-      {
-        product.quantity += 1;
+    let cart_quantity = 0;
+    cart_quantity = Number(document.querySelector('.js-select-quantity-'+productid).value) || 0 ;
+    // console.log(cart_quantity);
+
+    cart.forEach((product) => {
+      if (product.productid === productid) {
+        product.quantity += cart_quantity;
         check_presence = true;
       }
-    })
+    });
 
-    if (check_presence === undefined)
-    {
-      cart.push(
-      {
-        productid:productid,
-        quantity : 1
-      }
-    )
-    }
-  // console.log(cart);
+    if (check_presence === undefined) {
+      cart.push({
+        productid: productid,
+        quantity: cart_quantity
+      });
+    };
+
+    // console.log(cart);
+
+    //add to value to cart item
+    let cartcount = 0;
+    cart.forEach((item)=>{
+      cartcount += item.quantity;
+    });
+    // console.log(cartcount);
+    document.querySelector('.js-cart-count').innerHTML = cartcount;
+    document.querySelector('.js-select-quantity-'+productid).value = 1;
   });
 });
 
