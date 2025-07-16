@@ -1,5 +1,7 @@
 import {products} from '../data/products.js';
 import {cart, addTocart,addValuetocart} from '../data/cart.js';
+import {centToDollar} from './utils/numberconvention.js';
+
 // generate HTML
 let productHTML = '';
 products.forEach((product) => {
@@ -23,7 +25,7 @@ products.forEach((product) => {
           </div>
 
           <div class="product-price">
-            $${(product.priceCents / 100).toFixed(2)}
+            $${centToDollar(product.priceCents)}
           </div>
 
           <div class="product-quantity-container">
