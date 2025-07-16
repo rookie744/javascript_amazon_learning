@@ -89,4 +89,5 @@ add_cart_btn.forEach((button) => {
   });
 });
 
+// console.log(cart);
 
