@@ -1,3 +1,5 @@
+import {products} from '../data/products.js';
+import {cart, addTocart,addValuetocart} from '../data/cart.js';
 // generate HTML
 let productHTML = '';
 products.forEach((product) => {
@@ -41,7 +43,7 @@ products.forEach((product) => {
 
           <div class="product-spacer"></div>
 
-          <div class="added-to-cart">
+          <div class="added-to-cart js-add-cart-success-msg-${product.id}">
             <img src="images/icons/checkmark.png">
             Added
           </div>
@@ -58,39 +60,30 @@ document.querySelector('.products-grid').innerHTML=productHTML;
 
 //add to cart functionality
 let add_cart_btn = document.querySelectorAll('.js-add-cart');
+let clear_added_msg = {};
+let add_to_cart_msg = {};
 
 add_cart_btn.forEach((button) => {
   button.addEventListener('click', () => {
-    let check_presence;
-    let productid = button.dataset.productid;
-    let cart_quantity = 0;
-    cart_quantity = Number(document.querySelector('.js-select-quantity-'+productid).value) || 0 ;
-    // console.log(cart_quantity);
-
-    cart.forEach((product) => {
-      if (product.productid === productid) {
-        product.quantity += cart_quantity;
-        check_presence = true;
-      }
-    });
-
-    if (check_presence === undefined) {
-      cart.push({
-        productid: productid,
-        quantity: cart_quantity
-      });
+    let {productid} = button.dataset;
+    const add_cart_msg_item = document.querySelector(`.js-add-cart-success-msg-${productid}`);
+    addTocart(productid);
+    addValuetocart();
+    
+    // console.log(add_cart_msg_item)
+    if (clear_added_msg[productid])
+    {
+      clearTimeout(add_to_cart_msg[productid]);
     };
 
-    // console.log(cart);
+    add_cart_msg_item.style.opacity = 1;
+    clear_added_msg[productid] = true;
 
-    //add to value to cart item
-    let cartcount = 0;
-    cart.forEach((item)=>{
-      cartcount += item.quantity;
-    });
-    // console.log(cartcount);
-    document.querySelector('.js-cart-count').innerHTML = cartcount;
-    document.querySelector('.js-select-quantity-'+productid).value = 1;
+    add_to_cart_msg[productid] = setTimeout(()=>
+    {
+      add_cart_msg_item.style.opacity = 0;
+      clear_added_msg[productid] = false;
+    },2000);
   });
 });
 
