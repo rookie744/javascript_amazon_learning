@@ -1,6 +1,6 @@
 import {products} from '../data/products.js';
 import {cart, addTocart,addValuetocart} from '../data/cart.js';
-import {centToDollar} from './utils/numberconvention.js';
+import {centToDollar} from './scripts/utils/numberconvention.js';
 
 // generate HTML
 let productHTML = '';
