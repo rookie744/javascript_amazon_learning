@@ -1,5 +1,5 @@
 import {products} from '../data/products.js';
-import {cart, addTocart,addValuetocart} from '../data/cart.js';
+import {cart, addTocart,cart_item_count} from '../data/cart.js';
 import {centToDollar} from './utils/numberconvention.js';
 
 // generate HTML
@@ -70,7 +70,8 @@ add_cart_btn.forEach((button) => {
     let {productid} = button.dataset;
     const add_cart_msg_item = document.querySelector(`.js-add-cart-success-msg-${productid}`);
     addTocart(productid);
-    addValuetocart();
+    document.querySelector('.js-cart-count').innerHTML = cart_item_count();
+
     
     // console.log(add_cart_msg_item)
     if (clear_added_msg[productid])
@@ -88,6 +89,8 @@ add_cart_btn.forEach((button) => {
     },2000);
   });
 });
+document.querySelector('.js-cart-count').innerHTML = cart_item_count();
+
 
 // console.log(cart);
 
