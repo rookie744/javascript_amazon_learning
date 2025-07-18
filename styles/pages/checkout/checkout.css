@@ -209,3 +209,14 @@
   margin-top: 11px;
   margin-bottom: 15px;
 }
+
+.update-cart-input {
+  width:20px;
+}
+
+.hide-fields{
+  display: none;
+}
+.show-fields{
+  display: initial;
+}

@@ -30,13 +30,13 @@ cart.forEach((cart_item) => {
                 </div>
                 <div class="product-quantity">
                   <span>
-                    Quantity: <span class="quantity-label">${cart_item.quantity}</span>
+                    Quantity: <span class="quantity-label js-cart-quantity-value-${cart_item.productid}">${cart_item.quantity}</span>
                   </span>
-                  <input type="number">
-                  <span class="update-quantity-link link-primary">
+                  <input value="${cart_item.quantity}" type="number" class="update-cart-input hide-fields js-input-${cart_item.productid}">
+                  <span class="update-quantity-link link-primary hide-fields js-save-quantity js-save-cart-quantity-${cart_item.productid}" data-productid="${cart_item.productid}">
                     Save
                   </span>
-                  <span class="update-quantity-link link-primary">
+                  <span class="update-quantity-link link-primary js-update-quantity js-update-cart-quantity-${cart_item.productid}" data-productid="${cart_item.productid}" >
                     Update
                   </span>
                   <span class="delete-quantity-link link-primary">
@@ -96,4 +96,49 @@ cart.forEach((cart_item) => {
 document.querySelector('.js-check-items').innerHTML = checkHTML;
 document.querySelector('.js-check-out-item-count').innerHTML = `${cart_item_count()} items`;
 
-        
+const get_update_element = document.querySelectorAll('.js-update-quantity');
+get_update_element.forEach((update_element) => {
+
+  update_element.addEventListener('click',(event) => {
+    let {productid} = event.target.dataset;
+    let input_field = document.querySelector(`.js-input-${productid}`);
+    let save_span = document.querySelector(`.js-save-cart-quantity-${productid}`);
+    let qunatity_label = document.querySelector(`.js-cart-quantity-value-${productid}`);
+
+      input_field.classList.remove('hide-fields');
+      save_span.classList.remove('hide-fields');
+
+      event.target.classList.add('hide-fields');
+      qunatity_label.classList.add('hide-fields');
+
+  });
+});
+
+const get_save_element = document.querySelectorAll('.js-save-quantity');
+get_save_element.forEach((save_element) => {
+
+  save_element.addEventListener('click',(event) => {
+    let {productid} = event.target.dataset;
+    let input_field = document.querySelector(`.js-input-${productid}`);
+    let input_span = document.querySelector(`.js-update-cart-quantity-${productid}`);
+    let qunatity_label = document.querySelector(`.js-cart-quantity-value-${productid}`);
+    let input_value = Number(input_field.value);
+      input_field.classList.add('hide-fields');
+      input_span.classList.remove('hide-fields');
+
+      event.target.classList.add('hide-fields');
+      qunatity_label.classList.remove('hide-fields');
+
+      console.log(input_field.value);
+      cart.forEach((products_lists) => {
+        if (products_lists.productid === productid)
+        {
+          products_lists.quantity = input_value;
+        }
+      });
+      // console.log(cart);
+      sessionStorage.setItem('cart',JSON.stringify(cart));
+      document.querySelector('.js-check-out-item-count').innerHTML = `${cart_item_count()} items`;
+      qunatity_label.innerHTML = input_value;
+  });
+});
