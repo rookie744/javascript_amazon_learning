@@ -1,4 +1,4 @@
-export const cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+export let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
 
 export function addTocart(productid)
 {
@@ -31,4 +31,20 @@ export function cart_item_count()
     return cartcount
     // console.log(cartcount);
     // document.querySelector('.js-cart-count').innerHTML = cartcount;
-}
+};
+
+export function delete_cart_item(item_id)
+{ 
+  // console.log(item_id);
+  let new_cart = [];
+  cart.forEach((product_list) => {
+    if (product_list.productid !== item_id)
+    {
+      new_cart.push(product_list);
+    }
+  })
+  cart = new_cart;
+
+  sessionStorage.removeItem('cart') || null;
+  sessionStorage.setItem('cart',JSON.stringify(cart));
+};

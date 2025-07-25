@@ -1,5 +1,5 @@
 import {products} from '../data/products.js';
-import {cart,cart_item_count} from '../data/cart.js';
+import {cart,cart_item_count, delete_cart_item} from '../data/cart.js';
 import { centToDollar } from './utils/numberconvention.js';
 
 let checkHTML ='';
@@ -12,7 +12,7 @@ cart.forEach((cart_item) => {
             checkedout_products = product_list;
         }
     });
-    checkHTML += `<div class="cart-item-container">
+    checkHTML += `<div class="cart-item-container js-main-container-${cart_item.productid}">
             <div class="delivery-date">
               Delivery date: Tuesday, June 21
             </div>
@@ -39,7 +39,7 @@ cart.forEach((cart_item) => {
                   <span class="update-quantity-link link-primary js-update-quantity js-update-cart-quantity-${cart_item.productid}" data-productid="${cart_item.productid}" >
                     Update
                   </span>
-                  <span class="delete-quantity-link link-primary">
+                  <span class="delete-quantity-link link-primary js-delete-btn" data-productid="${cart_item.productid}">
                     Delete
                   </span>
                 </div>
@@ -142,3 +142,15 @@ get_save_element.forEach((save_element) => {
       qunatity_label.innerHTML = input_value;
   });
 });
+
+let delete_btn = document.querySelectorAll('.js-delete-btn');
+delete_btn.forEach((element) => {
+  element.addEventListener('click',()=>
+  {
+    delete_cart_item(element.dataset.productid);
+    document.querySelector('.js-check-out-item-count').innerHTML = `${cart_item_count()} items`;
+    const get_main_container = document.querySelector(`.js-main-container-${element.dataset.productid}`);
+    get_main_container.remove();
+    // console.log(element.dataset);
+  }) 
+})
