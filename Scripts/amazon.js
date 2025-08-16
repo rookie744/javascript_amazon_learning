@@ -1,7 +1,26 @@
 import {products} from '../data/products.js';
 import {cart, addTocart,cart_item_count} from '../data/cart.js';
 import {centToDollar} from './utils/numberconvention.js';
+import dayJS from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 
+let day = dayJS();
+console.log(day.format('dddd'));
+function isWeekend(date)
+{
+  const get_date = dayJS(date);
+  console.log(get_date.format('dddd'));
+  if (get_date.format('dddd') === 'Sunday' || get_date.format('dddd') === 'Saturday')
+  {
+    return 'Y';
+  }
+  else
+  {
+    return 'N';
+  }
+  
+}
+
+console.log(isWeekend(day.add(4,'day')));
 // generate HTML
 let productHTML = '';
 products.forEach((product) => {
