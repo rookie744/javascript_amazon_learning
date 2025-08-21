@@ -1,3 +1,5 @@
+import {cart} from '../data/cart.js';
+
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -658,3 +660,33 @@ export const products = [
     ]
   }
 ];
+
+export function get_product_current_price (type)
+{
+  let total_price = 0;
+  let tota_quantity = 0;
+  if (type === 'PRICE')
+  {
+  cart.forEach((cart_item) => 
+    {
+          products.forEach(item => {
+          if (cart_item.productid === item.id)
+              {
+                  total_price += item.priceCents * cart_item.quantity;
+              };
+          });
+    }
+  );
+  return total_price;
+  }
+  else if (type === 'QUANTITY')
+  {
+      cart.forEach((cart_item) => 
+    {
+      tota_quantity += cart_item.quantity;
+    }
+    );
+  return tota_quantity;
+  }
+    
+};

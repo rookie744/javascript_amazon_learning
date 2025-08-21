@@ -1,26 +1,13 @@
-import {products} from '../data/products.js';
+import {products, get_product_current_price} from '../data/products.js';
 import {cart, addTocart,cart_item_count} from '../data/cart.js';
 import {centToDollar} from './utils/numberconvention.js';
 import dayJS from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
+import {isWeekend as isSatSun }from './dayJS.js'
 
 let day = dayJS();
-console.log(day.format('dddd'));
-function isWeekend(date)
-{
-  const get_date = dayJS(date);
-  console.log(get_date.format('dddd'));
-  if (get_date.format('dddd') === 'Sunday' || get_date.format('dddd') === 'Saturday')
-  {
-    return 'Y';
-  }
-  else
-  {
-    return 'N';
-  }
-  
-}
-
-console.log(isWeekend(day.add(4,'day')));
+console.log(day.format('dddd, MMMM DD'));
+console.log(isSatSun(day.add(5,'day')));
+console.log(get_product_current_price('QUANTITY'));
 // generate HTML
 let productHTML = '';
 products.forEach((product) => {

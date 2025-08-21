@@ -1,8 +1,14 @@
 import {products} from '../data/products.js';
 import {cart,cart_item_count, delete_cart_item} from '../data/cart.js';
 import { centToDollar } from './utils/numberconvention.js';
+import { get_order_summary } from './ordersummary.js';
+import dayJS from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
+import {isWeekend , calculate_delivery_date }from './dayJS.js';
 
-let checkHTML ='';
+  let checkHTML ='';
+  let first_shipping_date = calculate_delivery_date(1);
+  let second_shipping_date = calculate_delivery_date(2,first_shipping_date);
+  let third_shipping_date = calculate_delivery_date(3,second_shipping_date);
 
 cart.forEach((cart_item) => {
     let checkedout_products = '';
@@ -13,8 +19,7 @@ cart.forEach((cart_item) => {
         }
     });
     checkHTML += `<div class="cart-item-container js-main-container-${cart_item.productid}">
-            <div class="delivery-date">
-              Delivery date: Tuesday, June 21
+            <div class="delivery-date"  id="delivery-option-${cart_item.productid}">
             </div>
 
             <div class="cart-item-details-grid">
@@ -51,11 +56,11 @@ cart.forEach((cart_item) => {
                 </div>
                 <div class="delivery-option">
                   <input type="radio" checked
-                    class="delivery-option-input"
-                    name="delivery-option-${cart_item.productid}">
+                    class="delivery-option-input js-radio-btn"
+                    name="delivery-option-${cart_item.productid}" data-date="${third_shipping_date.format('dddd, MMMM DD')}">
                   <div>
-                    <div class="delivery-option-date">
-                      Tuesday, June 21
+                    <div class="delivery-option-date ">
+                      ${third_shipping_date.format('dddd, MMMM DD')}
                     </div>
                     <div class="delivery-option-price">
                       FREE Shipping
@@ -64,11 +69,11 @@ cart.forEach((cart_item) => {
                 </div>
                 <div class="delivery-option">
                   <input type="radio"
-                    class="delivery-option-input"
-                    name="delivery-option-${cart_item.productid}">
+                    class="delivery-option-input js-radio-btn"
+                    name="delivery-option-${cart_item.productid}" data-date="${second_shipping_date.format('dddd, MMMM DD')}">
                   <div>
-                    <div class="delivery-option-date">
-                      Wednesday, June 15
+                    <div class="delivery-option-date ">
+                      ${second_shipping_date.format('dddd, MMMM DD')}
                     </div>
                     <div class="delivery-option-price">
                       $4.99 - Shipping
@@ -77,11 +82,11 @@ cart.forEach((cart_item) => {
                 </div>
                 <div class="delivery-option">
                   <input type="radio"
-                    class="delivery-option-input"
-                    name="delivery-option-${cart_item.productid}">
+                    class="delivery-option-input js-radio-btn"
+                    name="delivery-option-${cart_item.productid}" data-date="${first_shipping_date.format('dddd, MMMM DD')}">
                   <div>
                     <div class="delivery-option-date">
-                      Monday, June 13
+                      ${first_shipping_date.format('dddd, MMMM DD')}
                     </div>
                     <div class="delivery-option-price">
                       $9.99 - Shipping
@@ -94,6 +99,7 @@ cart.forEach((cart_item) => {
 
 });
 document.querySelector('.js-check-items').innerHTML = checkHTML;
+reflect_dates();
 document.querySelector('.js-check-out-item-count').innerHTML = `${cart_item_count()} items`;
 
 const get_update_element = document.querySelectorAll('.js-update-quantity');
@@ -153,4 +159,26 @@ delete_btn.forEach((element) => {
     get_main_container.remove();
     // console.log(element.dataset);
   }) 
+})
+
+get_order_summary();
+
+function reflect_dates()
+{
+  document.querySelectorAll('.js-radio-btn').forEach((element) => 
+    {
+        if (element.checked)
+        {
+            document.getElementById(element.name).innerHTML = `Delivery date: ${element.dataset.date}`;
+        }   
+    })
+};
+
+let get_all_radio_btn = document.querySelectorAll('.js-radio-btn');
+
+get_all_radio_btn.forEach((element) => {
+  element.addEventListener('click',() => 
+    {
+     document.getElementById(element.name).innerHTML = `Delivery date: ${element.dataset.date}`;
+    });
 })
