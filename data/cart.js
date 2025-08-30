@@ -1,4 +1,13 @@
-export let cart = JSON.parse(sessionStorage.getItem('cart')) || [];
+class Cart {
+  productid;
+  quantity = 0;
+  constructor(cart)
+  {
+    this.productid = cart.productid;
+    this.quantity = cart.quantity;
+  }
+}
+export let cart = JSON.parse(sessionStorage.getItem('cart')).map((cart) => new Cart(cart)) || [];
 
 export function addTocart(productid)
 {
@@ -48,3 +57,5 @@ export function delete_cart_item(item_id)
   sessionStorage.removeItem('cart') || null;
   sessionStorage.setItem('cart',JSON.stringify(cart));
 };
+
+console.log(cart);

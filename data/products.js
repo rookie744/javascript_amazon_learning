@@ -1,5 +1,42 @@
 import {cart} from '../data/cart.js';
 
+class Product {
+  id;
+  image;
+  name;
+  rating;
+  priceCents;
+  keywords;
+  constructor(productdetails)
+  {
+    this.id = productdetails.id;
+    this.image = productdetails.image;
+    this.name = productdetails.name;
+    this.rating = productdetails.rating;
+    this.priceCents = productdetails.priceCents;
+    this.keywords = productdetails.keywords;
+  }
+
+  InstrunctionWarrenty()
+  {
+    return ''
+  }
+}
+
+class Appliances extends Product {
+
+  constructor(productdetails)
+  {
+    super(productdetails)
+  }
+  InstrunctionWarrenty()
+  {
+    return `<a href="images/appliance-instructions.png" target="_blank">Instruction</a>
+    <a href="images/appliance-warranty.png" target="_blank">Warrenty</a>`
+  }
+
+}
+
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -659,7 +696,17 @@ export const products = [
       "mens"
     ]
   }
-];
+].map((productdetails) => 
+  {
+    if (productdetails.keywords.includes('appliances'))
+    {
+    return new Appliances(productdetails)
+    }
+    else
+    {
+    return new Product(productdetails)
+    }
+  });
 
 export function get_product_current_price (type)
 {
@@ -690,3 +737,5 @@ export function get_product_current_price (type)
   }
     
 };
+
+console.log(products);
