@@ -7,7 +7,19 @@ class Cart {
     this.quantity = cart.quantity;
   }
 }
-export let cart = JSON.parse(sessionStorage.getItem('cart')).map((cart) => new Cart(cart)) || [];
+
+function getcartdata() {
+  if (JSON.parse(sessionStorage.getItem('cart')))
+  {
+    return JSON.parse(sessionStorage.getItem('cart')).map((cart) => new Cart(cart));
+  }
+  else
+  {
+    return [];
+  }
+   };
+
+export let cart = getcartdata();
 
 export function addTocart(productid)
 {
@@ -59,3 +71,10 @@ export function delete_cart_item(item_id)
 };
 
 console.log(cart);
+
+export async function loadcart(fun) {
+  const response = await fetch('https://supersimplebackend.dev/cart')
+  const data = await response.text(); 
+  console.log(data);
+  fun();
+}

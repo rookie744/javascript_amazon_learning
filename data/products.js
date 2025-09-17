@@ -36,7 +36,7 @@ class Appliances extends Product {
   }
 
 }
-
+/*
 export const products = [
   {
     id: "e43638ce-6aa0-4b85-b27f-e1d07eb678c6",
@@ -707,6 +707,28 @@ export const products = [
     return new Product(productdetails)
     }
   });
+*/
+
+export let products = [];
+
+export async function FetchProducts (fun)
+{
+  let response = await fetch('https://supersimplebackend.dev/products');
+  let data = await response.json();
+  products = data.map((productdetails) => 
+  {
+    if (productdetails.keywords.includes('appliances'))
+    {
+    return new Appliances(productdetails)
+    }
+    else
+    {
+    return new Product(productdetails)
+    }
+  });
+  console.log(products);
+  fun();
+};
 
 export function get_product_current_price (type)
 {

@@ -1,10 +1,26 @@
-import {products} from '../data/products.js';
-import {cart,cart_item_count, delete_cart_item} from '../data/cart.js';
+import {products, FetchProducts} from '../data/products.js';
+import {cart,cart_item_count, delete_cart_item, loadcart} from '../data/cart.js';
 import { centToDollar } from './utils/numberconvention.js';
 import { get_order_summary } from './ordersummary.js';
-import dayJS from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
+// import dayJS from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 import {isWeekend , calculate_delivery_date }from './dayJS.js';
 
+FetchProducts(
+  () => {
+    loadcart(() => {
+          loadCheckOut()
+        } )
+      });
+// async function test()
+// {await  Promise.all(
+//   [FetchProducts()],
+//   [loadcart()]
+// );
+// loadCheckOut();}
+// test();
+      
+function loadCheckOut()
+{
   let checkHTML ='';
   let first_shipping_date = calculate_delivery_date(1);
   let second_shipping_date = calculate_delivery_date(2,first_shipping_date);
@@ -21,7 +37,7 @@ cart.forEach((cart_item) => {
     checkHTML += `<div class="cart-item-container js-main-container-${cart_item.productid}">
             <div class="delivery-date"  id="delivery-option-${cart_item.productid}">
             </div>
-
+            <div  data-productID = "${cart_item.productid}" data-quantity="${cart_item.quantity}" id="delivery-option-${cart_item.productid}-data" data-date="" class="js-place-order">
             <div class="cart-item-details-grid">
               <img class="product-image"
                 src="${checkedout_products.image}">
@@ -170,6 +186,8 @@ function reflect_dates()
         if (element.checked)
         {
             document.getElementById(element.name).innerHTML = `Delivery date: ${element.dataset.date}`;
+            document.getElementById(`${element.name}-data`).dataset.date = `Delivery date: ${element.dataset.date}`;
+
         }   
     })
 };
@@ -180,5 +198,7 @@ get_all_radio_btn.forEach((element) => {
   element.addEventListener('click',() => 
     {
      document.getElementById(element.name).innerHTML = `Delivery date: ${element.dataset.date}`;
+     document.getElementById(`${element.name}-data`).dataset.date = `${element.dataset.date}`;
     });
 })
+};

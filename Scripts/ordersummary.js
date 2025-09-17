@@ -1,5 +1,6 @@
 import {get_product_current_price} from '../data/products.js'
 import {centToDollar} from './utils/numberconvention.js'
+import { order } from '../data/order.js';
 export function get_order_summary() {
     let total_cents = get_product_current_price('PRICE') || 0;
     let total_quantity = get_product_current_price('QUANTITY') || 0;
@@ -37,11 +38,32 @@ export function get_order_summary() {
                 <div>Order total:</div>
                 <div class="payment-summary-money">$${centToDollar(total_order)}</div>
             </div>
-
-            <button class="place-order-button button-primary">
-                Place your order
-            </button>
+           <a href="orders.html">
+            <button class="place-order-button button-primary" >
+                 Place your order
+            </button> 
+            </a>
     `;
     document.querySelector('.js-order-summary').innerHTML = ordersummary;
     // console.log(ordersummary);
+    const place_order_btn = document.querySelector('.place-order-button');
+
+    place_order_btn.addEventListener('click',() =>
+    {
+        let get_order_data = document.querySelectorAll('.js-place-order');
+        get_order_data.forEach((element) => 
+        {
+           order.push(
+            {
+                productid : element.dataset.productid,
+                quantity:element.dataset.quantity,
+                date:element.dataset.date
+            }
+        );
+        })
+            // console.log(order);
+            sessionStorage.setItem('order',JSON.stringify(order));
+    });
+
 }
+

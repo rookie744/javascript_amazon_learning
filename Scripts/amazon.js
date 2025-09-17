@@ -1,13 +1,23 @@
-import {products, get_product_current_price} from '../data/products.js';
-import {cart, addTocart,cart_item_count} from '../data/cart.js';
+import {products, get_product_current_price, FetchProducts} from '../data/products.js';
+import {cart, addTocart,cart_item_count, loadcart} from '../data/cart.js';
 import {centToDollar} from './utils/numberconvention.js';
 import dayJS from 'https://unpkg.com/supersimpledev@8.5.0/dayjs/esm/index.js';
 import {isWeekend as isSatSun }from './dayJS.js'
+
+FetchProducts(
+  () => {
+    loadcart(() => {
+          loadProducts()
+        } )
+      });
 
 let day = dayJS();
 console.log(day.format('dddd, MMMM DD'));
 console.log(isSatSun(day.add(5,'day')));
 console.log(get_product_current_price('QUANTITY'));
+
+function loadProducts()
+{
 // generate HTML
 let productHTML = '';
 products.forEach((product) => {
@@ -96,7 +106,7 @@ add_cart_btn.forEach((button) => {
   });
 });
 document.querySelector('.js-cart-count').innerHTML = cart_item_count();
-
+};
 
 // console.log(cart);
 
