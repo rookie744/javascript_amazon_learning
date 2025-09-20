@@ -3,6 +3,8 @@ import { products, FetchProducts } from '../data/products.js';
 let innerHTML = ``;
 let url = new URL(window.location.href);
 const productID = url.searchParams.get('productID');
+const date = url.searchParams.get('date');
+// console.log(date);
 
 FetchProducts(()=>{
   generate_HTML();
@@ -20,7 +22,7 @@ function generate_HTML()
                         </a>
 
                         <div class="delivery-date">
-                        Arriving on Monday, June 13
+                        Arriving on ${date}
                         </div>
 
                         <div class="product-info">
@@ -34,10 +36,10 @@ function generate_HTML()
                         <img class="product-image" src="${Object.image}">
 
                         <div class="progress-labels-container">
-                        <div class="progress-label">
+                        <div class="progress-label " >
                             Preparing
                         </div>
-                        <div class="progress-label current-status">
+                        <div class="progress-label">
                             Shipped
                         </div>
                         <div class="progress-label">
@@ -46,7 +48,7 @@ function generate_HTML()
                         </div>
 
                         <div class="progress-bar-container">
-                        <div class="progress-bar"></div>
+                        <div class="progress-bar" style ="width:${Math.random() * 100}%"></div>
                         </div>
                 `
         }

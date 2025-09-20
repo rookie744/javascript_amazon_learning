@@ -62,7 +62,7 @@ export function get_order_summary() {
         );
         })
             // console.log(order);
-            sessionStorage.removeItem('order');
+            sessionStorage.setItem('order','');
             sessionStorage.setItem('order',JSON.stringify(order));
     });
 

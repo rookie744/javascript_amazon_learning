@@ -63,7 +63,7 @@ Object.keys(groupBy).map((key)=>{
             </div>
 
             <div class="product-actions">
-              <a href="tracking.html?productID=${Object.id}">
+              <a href="tracking.html?productID=${Object.id}&date=${key}">
                 <button class="track-package-button button-secondary">
                   Track package
                 </button>
