@@ -1,1 +1,1 @@
-export const order = JSON.parse(sessionStorage.getItem('order'))||[];
+export let order = JSON.parse(sessionStorage.getItem('order'))||[];

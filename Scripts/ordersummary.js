@@ -51,9 +51,11 @@ export function get_order_summary() {
     place_order_btn.addEventListener('click',() =>
     {
         let get_order_data = document.querySelectorAll('.js-place-order');
+        // let order = [];
+        let new_order = [];
         get_order_data.forEach((element) => 
         {
-           order.push(
+           new_order.push(
             {
                 productid : element.dataset.productid,
                 quantity:element.dataset.quantity,
@@ -61,9 +63,10 @@ export function get_order_summary() {
             }
         );
         })
-            // console.log(order);
-            sessionStorage.setItem('order','');
-            sessionStorage.setItem('order',JSON.stringify(order));
+        // order = new_order;
+            console.log(new_order);
+            // sessionStorage.setItem('order','');
+            sessionStorage.setItem('order',JSON.stringify(new_order));
     });
 
 }

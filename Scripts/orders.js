@@ -1,7 +1,9 @@
+import { cart } from '../data/cart.js';
 import { order } from '../data/order.js';
 import { products, FetchProducts } from '../data/products.js';
 
-let groupBy = Object.groupBy(order,({date}) => date)
+console.log('order',order);
+let groupBy = Object.groupBy(order,({date}) => date);
 
 FetchProducts(()=>{
   generate_order();
@@ -56,7 +58,7 @@ Object.keys(groupBy).map((key)=>{
               <div class="product-quantity">
                 Quantity: ${innerObj.quantity}
               </div>
-              <button class="buy-again-button button-primary">
+              <button class="buy-again-button button-primary js-buy-again" data-productid="${Object.id}">
                 <img class="buy-again-icon" src="images/icons/buy-again.png">
                 <span class="buy-again-message">Buy it again</span>
               </button>
@@ -77,4 +79,29 @@ Object.keys(groupBy).map((key)=>{
      `</div></div>`
 });
 document.querySelector('.js-generate-orders').innerHTML = HTMLorder;
+let get_buy_again_btn = document.querySelectorAll('.js-buy-again');
+get_buy_again_btn.forEach((element) => {
+  element.addEventListener('click',() => {
+    // console.log(element.dataset.productid);
+    cart.forEach((products_lists) => {
+        if (products_lists.productid === element.dataset.productid)
+        {
+          products_lists.quantity += 1;
+        }
+      });
+      order.forEach((products_lists) => {
+        if (products_lists.productid === element.dataset.productid)
+        {
+          let get_value = Number(products_lists.quantity);
+          get_value += 1;
+          products_lists.quantity = get_value;
+        }
+      });
+      sessionStorage.setItem('cart',JSON.stringify(cart));
+      sessionStorage.setItem('order',JSON.stringify(order));
+      window.location.reload();
+  })
+
+})
 }
+

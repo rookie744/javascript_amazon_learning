@@ -19,8 +19,11 @@ console.log(get_product_current_price('QUANTITY'));
 function loadProducts()
 {
 // generate HTML
+let url = new URL(window.location.href);
+let search = url.searchParams.get('search');
 let productHTML = '';
 products.forEach((product) => {
+if ((product.name).toLowerCase().includes(search.toLowerCase))
     productHTML += `
     <div class="product-container">
           <div class="product-image-container">
@@ -110,3 +113,8 @@ document.querySelector('.js-cart-count').innerHTML = cart_item_count();
 
 // console.log(cart);
 
+let get_search = document.querySelector('.js-search');
+
+get_search.addEventListener('click',() => {
+  window.location.href=`amazon.html?search=${document.querySelector('.js-search-value').value}`;
+})
