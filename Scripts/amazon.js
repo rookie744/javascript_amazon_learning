@@ -23,7 +23,7 @@ let url = new URL(window.location.href);
 let search = url.searchParams.get('search');
 let productHTML = '';
 products.forEach((product) => {
-if ((product.name).toLowerCase().includes(search.toLowerCase))
+if ((product.name).toLowerCase().includes(search.toLowerCase()))
     productHTML += `
     <div class="product-container">
           <div class="product-image-container">
